@@ -8,8 +8,8 @@ public class Application extends JFrame {
     }
 
     private void initUI() {
-        add(new Window());
-        setSize(800, 500);
+        add(new WindowThread());
+        setSize(800, 600);
         setTitle("Space Bastards");
         setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         setLocationRelativeTo(null);
