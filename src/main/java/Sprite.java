@@ -7,6 +7,8 @@ public class Sprite {
     protected int y;
     protected int width;
     protected int height;
+    private int iconWidth;
+    private int iconHeight;
     protected boolean vis;
     protected Image image;
 
@@ -18,6 +20,8 @@ public class Sprite {
 
     protected void loadImage(String imageName) {
         ImageIcon ii = new ImageIcon(imageName);
+        iconWidth = ii.getIconWidth();
+        iconHeight = ii.getIconHeight();
         image = ii.getImage();
     }
 
@@ -38,11 +42,23 @@ public class Sprite {
         return y;
     }
 
+    public int getImageWidth(){
+        return iconWidth;
+    }
+
+    public int getImageHeight(){
+        return iconHeight;
+    }
+
     public boolean isVisible() {
         return vis;
     }
 
     public void setVisible(Boolean visible) {
         vis = visible;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, getImageWidth(), getImageHeight());
     }
 }
