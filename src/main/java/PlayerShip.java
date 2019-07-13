@@ -64,6 +64,10 @@ public class PlayerShip extends Sprite {
         return iconHeight;
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, getImageWidth(), 30);
+    }
+
     public void setDx(int dx) {
         this.dx = dx;
     }

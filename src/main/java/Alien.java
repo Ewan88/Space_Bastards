@@ -16,6 +16,6 @@ public class Alien extends Sprite {
         if (x < 0) {
             x = INITIAL_X;
         }
-        x -= 2;
+        x -= 6;
     }
 }

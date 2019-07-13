@@ -141,8 +141,8 @@ public class WindowThread extends JPanel implements Runnable {
 
         while (inGame) {
             updatePlayerShip();
-            updateMissiles();
             updateAliens();
+            updateMissiles();
             updateExplosions();
 
             checkCollisions();
@@ -174,8 +174,9 @@ public class WindowThread extends JPanel implements Runnable {
     private void updateExplosions() {
         for (int i = 0; i < explosions.size(); i++) {
             Explosion ex = (Explosion) explosions.get(i);
-            if (ex.checkForRmoval()) {
+            if (ex.checkForRemoval()) {
                 explosions.remove(i);
+                i--;
             }
         }
     }
@@ -202,6 +203,7 @@ public class WindowThread extends JPanel implements Runnable {
                 a.move();
             } else {
                 aliens.remove(i);
+                i--;
             }
         }
     }
@@ -215,6 +217,7 @@ public class WindowThread extends JPanel implements Runnable {
                 m.move();
             } else {
                 ms.remove(i);
+                i--;
             }
         }
     }
@@ -222,6 +225,7 @@ public class WindowThread extends JPanel implements Runnable {
     public void checkCollisions() {
 
         Rectangle r3 = playerShip.getBounds();
+
         for (int i = 0; i < aliens.size(); i++) {
             Alien a = (Alien) aliens.get(i);
             Rectangle r2 = a.getBounds();
@@ -236,6 +240,7 @@ public class WindowThread extends JPanel implements Runnable {
         }
 
         ArrayList<Missile> ms = playerShip.getMissiles();
+
         for (Missile m : ms) {
             Rectangle r1 = m.getBounds();
 

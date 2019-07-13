@@ -13,7 +13,7 @@ public class Explosion extends Sprite {
         timeInitialised = System.currentTimeMillis();
     }
 
-    public boolean checkForRmoval() {
+    public boolean checkForRemoval() {
         long newTime, timeDiff, sleep;
 
         newTime = System.currentTimeMillis();
