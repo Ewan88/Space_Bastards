@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-public class PlayerShip {
+public class PlayerShip extends Sprite {
 
     private int dx;
     private int dy;
@@ -11,23 +12,28 @@ public class PlayerShip {
     private int iconWidth;
     private int iconHeight;
     private Image image;
+    private ArrayList missiles;
 
-    public PlayerShip() {
+    public PlayerShip(int x, int y) {
+        super(x, y);
         intPlayerShip();
     }
 
     private void intPlayerShip() {
+        missiles = new ArrayList();
         ImageIcon ii = new ImageIcon("Resources/player1.png");
-        image = ii.getImage();
         iconWidth = ii.getIconWidth();
         iconHeight = ii.getIconHeight();
-        x = 40;
-        y = 60;
+        image = ii.getImage();
     }
 
     public void move() {
         x += dx;
         y += dy;
+    }
+
+    public ArrayList getMissiles() {
+        return missiles;
     }
 
     public int getX() {
@@ -64,6 +70,10 @@ public class PlayerShip {
 
     public void setDy(int dy) {
         this.dy = dy;
+    }
+
+    public void fire() {
+        missiles.add(new  Missile(x + getImageWidth(), y + getImageHeight() / 3));
     }
 
     public void keyPressed(KeyEvent e) {

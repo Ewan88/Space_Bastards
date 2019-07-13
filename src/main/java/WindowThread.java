@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class WindowThread extends JPanel implements Runnable {
 
@@ -9,6 +10,7 @@ public class WindowThread extends JPanel implements Runnable {
     private final int DELAY = 50;
 
     private PlayerShip playerShip;
+    private Image background;
     private Thread animator;
     KeyboardInput keyboard = new KeyboardInput();
 
@@ -22,7 +24,7 @@ public class WindowThread extends JPanel implements Runnable {
         setDoubleBuffered(true);
         addKeyListener(keyboard);
         setFocusable(true);
-        playerShip = new PlayerShip();
+        playerShip = new PlayerShip(100, 300);
     }
 
     @Override
@@ -41,17 +43,24 @@ public class WindowThread extends JPanel implements Runnable {
     private void drawPlayer(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(playerShip.getImage(), playerShip.getX(), playerShip.getY(), this);
+
+        ArrayList ms = playerShip.getMissiles();
+        for (Object m1 : ms) {
+            Missile m = (Missile) m1;
+            g2d.drawImage(m.getImage(), m.getX(), m.getY(), this);
+        }
+
         Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
     public void run() {
         long beforeTime, timeDiff, sleep;
-
         beforeTime = System.currentTimeMillis();
 
         while (true) {
             playerShip.move();
+            updateMissiles();
             keyboard.poll();
             processInput();
             repaint();
@@ -77,6 +86,19 @@ public class WindowThread extends JPanel implements Runnable {
         }
     }
 
+    private void updateMissiles() {
+        ArrayList ms = playerShip.getMissiles();
+
+        for (int i = 0; i < ms.size(); i++) {
+            Missile m = (Missile) ms.get(i);
+            if (m.isVisible()) {
+                m.move();
+            } else {
+                ms.remove(i);
+            }
+        }
+    }
+
     protected void processInput() {
         if (keyboard.keyDown(KeyEvent.VK_DOWN)) {
             playerShip.setDy(5);
@@ -98,6 +120,10 @@ public class WindowThread extends JPanel implements Runnable {
 
         if (keyboard.keyDown(KeyEvent.VK_RIGHT)) {
             playerShip.setDx(5);
+        }
+
+        if (keyboard.keyDown(KeyEvent.VK_SPACE)) {
+            playerShip.fire();
         }
 
         if (playerShip.getX() < 0) {
