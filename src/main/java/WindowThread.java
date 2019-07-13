@@ -9,13 +9,15 @@ public class WindowThread extends JPanel implements Runnable {
     private final int B_HEIGHT = 600;
     private final int DELAY = 50;
 
-    private PlayerShip playerShip;
     private Thread animator;
+    private PlayerShip playerShip;
     private ArrayList aliens;
     private ArrayList explosions;
+
     private boolean inGame;
     private boolean inTitle;
     private boolean gameOver;
+
     KeyboardInput keyboard = new KeyboardInput();
 
     private final int[][] pos = {
@@ -82,23 +84,13 @@ public class WindowThread extends JPanel implements Runnable {
         }
     }
 
-    private void drawGameOver(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        GameOver gameOver = new GameOver(0, 0);
-        g2d.drawImage(gameOver.getImage(), 0, 0, this);
-    }
-
-    private void drawGameTitle(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        SplashScreen title = new SplashScreen(0, 0);
-        g2d.drawImage(title.getImage(), 0, 0, this);
-    }
-
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
         if (playerShip.isVisible()) {
             g2d.drawImage(playerShip.getImage(), playerShip.getX(), playerShip.getY(), this);
         }
+
         ArrayList ms = playerShip.getMissiles();
 
         for (Object m1 : ms) {
@@ -119,9 +111,22 @@ public class WindowThread extends JPanel implements Runnable {
         Toolkit.getDefaultToolkit().sync();
     }
 
+    private void drawGameOver(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        GameOver gameOver = new GameOver(0, 0);
+        g2d.drawImage(gameOver.getImage(), 0, 0, this);
+    }
+
+    private void drawGameTitle(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        SplashScreen title = new SplashScreen(0, 0);
+        g2d.drawImage(title.getImage(), 0, 0, this);
+    }
+
     @Override
     public void run() {
         long beforeTime, timeDiff, sleep;
+
         beforeTime = System.currentTimeMillis();
 
         while (inTitle) {
@@ -215,8 +220,8 @@ public class WindowThread extends JPanel implements Runnable {
     }
 
     public void checkCollisions() {
-        Rectangle r3 = playerShip.getBounds();
 
+        Rectangle r3 = playerShip.getBounds();
         for (int i = 0; i < aliens.size(); i++) {
             Alien a = (Alien) aliens.get(i);
             Rectangle r2 = a.getBounds();
@@ -231,7 +236,6 @@ public class WindowThread extends JPanel implements Runnable {
         }
 
         ArrayList<Missile> ms = playerShip.getMissiles();
-
         for (Missile m : ms) {
             Rectangle r1 = m.getBounds();
 
@@ -249,25 +253,25 @@ public class WindowThread extends JPanel implements Runnable {
 
     protected void processInput() {
         if (keyboard.keyDown(KeyEvent.VK_DOWN)) {
-            playerShip.setDy(5);
+            playerShip.setDy(10);
         }
         if (!keyboard.keyDown(KeyEvent.VK_DOWN)) {
             playerShip.setDy(0);
         }
 
         if (keyboard.keyDown(KeyEvent.VK_UP)) {
-            playerShip.setDy(-5);
+            playerShip.setDy(-10);
         }
 
         if (keyboard.keyDown(KeyEvent.VK_LEFT)) {
-            playerShip.setDx(-5);
+            playerShip.setDx(-10);
         }
         if (!keyboard.keyDown(KeyEvent.VK_LEFT)) {
             playerShip.setDx(0);
         }
 
         if (keyboard.keyDown(KeyEvent.VK_RIGHT)) {
-            playerShip.setDx(5);
+            playerShip.setDx(10);
         }
 
         if (keyboard.keyDown(KeyEvent.VK_P)){
